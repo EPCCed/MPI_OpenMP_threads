@@ -1,7 +1,7 @@
 To install and run iPIC3D, you need: 
    cmake (at least version 2.8), MPI and HDF5 (optional).
 
-# if you intend to use Intel MPI, we would advice you use also Intel compilers
+# if you intend to use Intel MPI, we would advice you to use also Intel compilers
 
 # create a build directory
   mkdir build && cd build
