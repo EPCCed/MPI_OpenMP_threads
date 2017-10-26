@@ -1,3 +1,4 @@
+/* This release was prepared by Dana Akhmetova <danaak@kth.se>/<danieka@gmail.com> on behalf of the INTERTWinE European Exascale Project <http://www.intertwine-project.eu> */
 /* iPIC3D was originally developed by Stefano Markidis and Giovanni Lapenta. 
  * This release was contributed by Alec Johnson and Ivy Bo Peng.
  * Publications that use results from iPIC3D need to properly cite  
@@ -2628,25 +2629,25 @@ void EMfields3D::fixBnGEM()
   if (vct->getYright_neighbor() == MPI_PROC_NULL) {
     for (int i = 0; i < nxn; i++)
       for (int k = 0; k < nzn; k++) {
-        Bxn[i][nyc - 1][k] = B0x * tanh((grid->getYC(i, nyc - 1, k) - Ly / 2) / delta);
-        Bxn[i][nyc - 2][k] = Bxc[i][nyc - 1][k];
-        Bxn[i][nyc - 3][k] = Bxc[i][nyc - 1][k];
-        Byn[i][nyc - 1][k] = B0y;
-        Bzn[i][nyc - 1][k] = B0z;
-        Bzn[i][nyc - 2][k] = B0z;
-        Bzn[i][nyc - 3][k] = B0z;
+	Bxn[i][nyn - 1][k] = B0x * tanh((grid->getYC(i, nyc - 1, k) - Ly / 2) / delta);
+        Bxn[i][nyn - 2][k] = Bxn[i][nyn - 1][k];
+        Bxn[i][nyn - 3][k] = Bxn[i][nyn - 1][k];
+        Byn[i][nyn - 1][k] = B0y;
+        Bzn[i][nyn - 1][k] = B0z;
+        Bzn[i][nyn - 2][k] = B0z;
+        Bzn[i][nyn - 3][k] = B0z;
       }
   }
   if (vct->getYleft_neighbor() == MPI_PROC_NULL) {
-    for (int i = 0; i < nxc; i++)
-      for (int k = 0; k < nzc; k++) {
-        Bxc[i][0][k] = B0x * tanh((grid->getYC(i, 0, k) - Ly / 2) / delta);
-        Bxc[i][1][k] = Bxc[i][0][k];
-        Bxc[i][2][k] = Bxc[i][0][k];
-        Byc[i][0][k] = B0y;
-        Bzc[i][0][k] = B0z;
-        Bzc[i][1][k] = B0z;
-        Bzc[i][2][k] = B0z;
+    for (int i = 0; i < nxn; i++)
+      for (int k = 0; k < nzn; k++) {
+        Bxn[i][0][k] = B0x * tanh((grid->getYC(i, 0, k) - Ly / 2) / delta);
+        Bxn[i][1][k] = Bxn[i][0][k];
+        Bxn[i][2][k] = Bxn[i][0][k];
+        Byn[i][0][k] = B0y;
+        Bzn[i][0][k] = B0z;
+        Bzn[i][1][k] = B0z;
+        Bzn[i][2][k] = B0z;
       }
   }
 }
