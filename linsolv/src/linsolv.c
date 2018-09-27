@@ -217,7 +217,6 @@ static void jacobi(BSMLinSys *linsys, CommMap *parallel_data, Matrix x0,
       }
 
       /* communicate new solution */
-#     pragma omp single
       exchange_matrix(parallel_data, x0);
 
     } while(iter < max_iter);
@@ -310,7 +309,6 @@ static void gauss_seidel(BSMLinSys *linsys, CommMap *parallel_data, Matrix x0,
 
 #     pragma omp barrier
       /* communicate new solution */
-#     pragma omp single
       exchange_matrix(parallel_data, x0);
 
     } while(iter < max_iter);
@@ -406,7 +404,6 @@ static void symm_gauss_seidel(BSMLinSys *linsys, CommMap *parallel_data,
 
 #     pragma omp barrier
       /* communicate new solution */
-#     pragma omp single
       exchange_matrix(parallel_data, x0);
 
       /*------------------------------------------------------------------------
@@ -450,7 +447,6 @@ static void symm_gauss_seidel(BSMLinSys *linsys, CommMap *parallel_data,
 
 #     pragma omp barrier
       /* communicate new solution */
-#     pragma omp single
       exchange_matrix(parallel_data, x0);
 
     } while(iter < max_iter);

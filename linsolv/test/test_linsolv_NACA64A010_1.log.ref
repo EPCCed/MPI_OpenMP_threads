@@ -1,6 +1,5 @@
 [0] Number of threads: 4
 [0] Number of procs:   1
-[0] SCHEDULE: schedule(static)
 [0] Read block sparse matrix
 [0] Read rhs
 [0] Number of sweeps: 5

@@ -1,6 +1,5 @@
 [0] Number of threads: 4
 [0] Number of procs:   4
-[0] SCHEDULE: schedule(static)
 [0] Read communication data
 [0] Read block sparse matrix
 [0] Read rhs

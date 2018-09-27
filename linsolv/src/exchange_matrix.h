@@ -8,6 +8,16 @@
 #include "setup_comm.h"
 #include "matrix.h"
 
+#ifndef COMM_SCHEDULE
+# define COMM_SCHEDULE schedule(guided)
+#endif
+#define COMM_SCHEDSTRING EXPSTR(COMM_SCHEDULE)
+#ifdef USE_MPI_MULTI_THREADED
+# define COMMVERSTR "MPI_THREAD_MULTIPLE"
+#else
+# define COMMVERSTR "MPI_THREAD_SERIALIZED"
+#endif
+
 /*******************************************************************************
 *
 *******************************************************************************/

@@ -90,6 +90,11 @@ void exchange_matrix(const CommMap *comap, Matrix matrix)
   int *commpartner = comap->commpartner;
   int i, j, col;
 
+#ifdef USE_MPI_MULTI_THREADED
+# pragma omp for COMM_SCHEDULE nowait
+#else
+# pragma omp single nowait
+#endif
   for(i = 0; i < ncommpartner; i++)
   {
     const int source = commpartner[i];
@@ -100,6 +105,7 @@ void exchange_matrix(const CommMap *comap, Matrix matrix)
                 request + i);
   }
 
+# pragma omp for COMM_SCHEDULE
   for(i = 0; i < ncommpartner; i++)
   {
     const int dest = commpartner[i];
@@ -114,13 +120,31 @@ void exchange_matrix(const CommMap *comap, Matrix matrix)
         for(col = 0; col < ncols; col++)
           sendbuf[i][j * ncols + col] = mat[sendindex[j]][col];
 
+#ifdef USE_MPI_MULTI_THREADED
       MPI_Isend(sendbuf[i], ncols * sendcount, MPI_DOUBLE, dest, tag, comm,
                 request + nrequest + i);
+#endif
     }
   }
 
-  MPI_Waitall(2 * nrequest, request, status);
+# pragma omp single
+  {
+#ifndef USE_MPI_MULTI_THREADED
+    for(i = 0; i < ncommpartner; i++)
+    {
+      const int dest = commpartner[i];
+      const int sendcount = comap->sendcount[dest];
 
+      if(sendcount > 0)
+        MPI_Isend(sendbuf[i], ncols * sendcount, MPI_DOUBLE, dest, tag, comm,
+                  request + nrequest + i);
+    }
+#endif
+
+    MPI_Waitall(2 * nrequest, request, status);
+  }
+
+# pragma omp for COMM_SCHEDULE
   for(i = 0; i < ncommpartner; i++)
   {
     const int source = commpartner[i];

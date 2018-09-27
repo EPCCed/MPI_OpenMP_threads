@@ -62,8 +62,12 @@ int main(int argc, char *argv[])
     }
   }
 
-  if(DBG_PRINT || myrank == 0)
+  if(DBG_PRINT)
+  {
     printf("[%d] SCHEDULE: %s\n", myrank, SCHEDSTRING);
+    printf("[%d] COMMVERSION: %s\n", myrank, COMMVERSTR);
+    printf("[%d] COMM_SCHEDULE: %s\n", myrank, COMM_SCHEDSTRING);
+  }
 
   /* read and calc communication data only in parallel case */
   if(nprocs > 1)
@@ -135,6 +139,8 @@ int main(int argc, char *argv[])
   for(int i = 0; i < nsolver; i++)
   {
     BSLinSysMethod lin_solver = solverIDs[i];
+
+    MPI_Barrier(MPI_COMM_WORLD);
 
     if(DBG_PRINT || myrank == 0)
       printf("[%d] Test solver '%s'\n", myrank, get_linsolv_name(lin_solver));
